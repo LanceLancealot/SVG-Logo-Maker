@@ -1,6 +1,6 @@
-// index.js
 const getUserInput = require('./lib/userInput');
 const { Triangle, Circle, Square } = require('./lib/shapes');
+const SVGGenerator = require('./lib/svgGenerator');
 const saveToFile = require('./lib/fileHandler');
 
 async function main() {
@@ -25,9 +25,12 @@ async function main() {
 
   shape.setColor(userInput.shapeColor);
 
-  const svgString = shape.render();
+  const svgGenerator = new SVGGenerator([shape]);
+  svgGenerator.setText(userInput.text);
 
-  await saveToFile('logo.svg', svgString);
+  const finalSVG = svgGenerator.generateSVG();
+
+  await saveToFile('logo.svg', finalSVG);
 
   console.log('Generated logo.svg');
 }
